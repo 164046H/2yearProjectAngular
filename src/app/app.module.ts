@@ -17,12 +17,14 @@ import { SidenavbarComponent } from './SharePart/sidenavbar/sidenavbar.component
 
 import { AuthServiceService } from "./AuthGards/auth-service.service";
 
+
 @NgModule({
   declarations: [
     AppComponent,
     //LoggedHeaderComponent,
     LogingHeaderComponent,
     SidenavbarComponent,
+    
     
   ],
   imports: [
