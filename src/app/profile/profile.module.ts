@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
 import {FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { map, filter } from 'rxjs/operators';
+
 import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
@@ -32,6 +34,11 @@ import { UpdateRolesComponent } from './update-roles/update-roles.component';
 import { ShowDepartmentsDetailsComponent } from './show-departments-details/show-departments-details.component';
 import { ShowRolesDetailsComponent } from './show-roles-details/show-roles-details.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
+import { EmployeeProfileComponent } from './employee-profile/employee-profile.component';
+import { FilterPipePipe } from './filter-pipe.pipe';
+import { EmployeeRegisterComponent } from './employee-register/employee-register.component';
+import { EmployeeRegisterByLinkComponent } from './employee-register-by-link/employee-register-by-link.component';
+import { ForgetEmployeePasswordComponent } from './forget-employee-password/forget-employee-password.component';
 
 @NgModule({
   imports: [
@@ -59,14 +66,23 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
       { path: 'cd', component: DepartmentCreateComponent },
       { path: 'cp', component: RoleCreateComponent },
       { path: 'update/:id', component: UpdateEmployeeComponent },
-      { path: 'upd/:id', component: UpdateDepartmentComponent },
-      { path: 'upr/:id', component: UpdateRolesComponent },
       
-      { path: 'admin', component: AdminPageComponent,canActivate:[AuthRoleGuard],data: { expectedRole1: 'AD'}},
+      { path: 'profile', component: EmployeeProfileComponent  },
+      { path: 'register', component: EmployeeRegisterByLinkComponent  },
+      { path: 'forgetpassword', component: ForgetEmployeePasswordComponent  },
+      
+      { path: 'admin', component: AdminPageComponent,children:[
+        
+        { path: 'roles', component: ShowRolesDetailsComponent },
+        { path: 'departments', component: ShowDepartmentsDetailsComponent},
+        { path: 'updatedepartment/:id', component: UpdateDepartmentComponent },
+        { path: 'updaterole/:id', component: UpdateRolesComponent },
+      ]},
       
     ])
   ],
-  declarations: [LoggedHeaderComponent,LoginUserInterfaceComponent, ShowEmployeesDetailsComponent, EmployeeDetailsComponent,  DeleteEmployeeComponent, LoginEmployeeComponent, SignupEmployeeComponent, DepartmentCreateComponent, RoleCreateComponent, UpdateEmployeeComponent, UpdateDepartmentComponent, UpdateRolesComponent, ShowDepartmentsDetailsComponent, ShowRolesDetailsComponent, AdminPageComponent]
+  declarations: [LoggedHeaderComponent,LoginUserInterfaceComponent, ShowEmployeesDetailsComponent, EmployeeDetailsComponent,  DeleteEmployeeComponent, LoginEmployeeComponent, SignupEmployeeComponent, DepartmentCreateComponent, RoleCreateComponent, UpdateEmployeeComponent, UpdateDepartmentComponent, UpdateRolesComponent, ShowDepartmentsDetailsComponent, ShowRolesDetailsComponent, AdminPageComponent, EmployeeProfileComponent, FilterPipePipe, EmployeeRegisterComponent, EmployeeRegisterByLinkComponent, ForgetEmployeePasswordComponent],
+  exports: [RouterModule]
 })
 export class ProfileModule { }
  

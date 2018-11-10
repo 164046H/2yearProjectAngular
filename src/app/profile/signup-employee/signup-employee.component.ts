@@ -1,12 +1,14 @@
 
   import { Component, OnInit } from '@angular/core';
-  import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+  import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors,AsyncValidatorFn } from '@angular/forms';
   import { Employee} from './../_interfaces/employee.model';
   import {  RepositoryService} from './../../ShareData/repository.service';
   import { Router } from '@angular/router';
   import { LoginUserInterfaceComponent } from "./../login-user-interface/login-user-interface.component";
-  
-  
+  import { EmailCheck } from "./../_interfaces/email-check";
+  import { Observable } from 'rxjs';
+  import { map } from 'rxjs/operators';
+
 
   @Component({
     selector: 'app-signup-employee',
@@ -19,8 +21,12 @@
     public ownerForm: FormGroup;
     public departments:any;
     public roles:any;
+    public isAvalibleemail:boolean;
+    public IsLogin:any;
+    public message:any;
+    public wait:any;
    
-   
+
   
     constructor(private router: Router,  private repository : RepositoryService,private logcomponent:LoginUserInterfaceComponent) { }
   
@@ -28,7 +34,7 @@
 
       this.getRoles();
       this.getDepartment();
-
+    
       this.ownerForm = new FormGroup({
         id:new FormControl('',[Validators.required,Validators.maxLength(6)]),
         name:new FormControl('',[Validators.required]),
@@ -37,8 +43,7 @@
         address2:new FormControl('',[Validators.required]),
         email:new FormControl('',[Validators.required,Validators.email]),
         confirmpassword: new FormControl ('',[Validators.required]),
-        password:new FormControl('',[Validators.required]),
-      
+        password:new FormControl('',[Validators.required]),      
         department:new FormControl('',[Validators.required]),
         gender:new FormControl('',[Validators.required])
       },{ validators: isvalidconfirmpassword })
@@ -63,10 +68,14 @@
   
       return false;
     }
-  
+   
+
     public createOwner(ownerFormValue) {
       if (this.ownerForm.valid) {
+        this.shouldBeUnique('email');
         this.executeOwnerCreation(ownerFormValue);
+        this.wait = true;
+        this.IsLogin = false;
        
       }
     }
@@ -79,7 +88,7 @@
         EmpAddress1: ownerFormValue.address1,
         EmpAddress2: ownerFormValue.address2,
         EmpEmail: ownerFormValue.email,
-        PositionPId: 'RC',
+        PositionPId: '',
         EmpPassword:  ownerFormValue.password,
         DepartmentDprtId: ownerFormValue.department,
         EmpGender: ownerFormValue.gender,
@@ -89,12 +98,15 @@
     
       this.repository.postData(apiUrl, owner)
         .subscribe(res => {
-          this.router.navigate(['/profile/list']);
-            
+          this.IsLogin = true;
+          this.logcomponent.loginEmail = ownerFormValue.email;
+           this.wait = false;
+           this.message = ""
           },
           (error => {
-          //  this.errorHandler.handleError(error);
-          //  this.errorMessage = this.errorHandler.errorMessage;
+            this.IsLogin= false;
+            this.wait = false;
+            this.message = "Registration failed, try again!"
           })
         )
     }
@@ -134,21 +146,42 @@
         )
     }
 
-      
- 
+    public  shouldBeUnique(controlName: string ){
+        
+      let isunique;
+      let apiUrl = 'isuniqueemail';
+      let loginuse: EmailCheck = {
+       Email: this.ownerForm.controls[controlName].value
+     }
+    
 
+   this.repository.postData(apiUrl,loginuse)
+         .subscribe(res=>{
+           console.log(res);
+           if(res==true)
+           {this.isAvalibleemail=true }
+           else 
+           { }
+         },(error => {
+          
+          
+         })
+         )
+
+     }
+
+ 
 }
   
-function ageRangeValidator(control: AbstractControl): { [key: string]: boolean } | null {
-  if (control.value !== undefined && (isNaN(control.value) || control.value < 18 || control.value > 45)) {
-      return { 'ageRange': true };
-  }
-  return null;
-} 
+
+
+
+
 
 export const isvalidconfirmpassword: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
   const password = control.get('password');
   const confirmpassword = control.get('confirmpassword');
   
-  return password && confirmpassword && password.value === confirmpassword.value && confirmpassword.value !== ""? { 'ismatch': true } : null;
+  return password && confirmpassword && password.value !== confirmpassword.value && confirmpassword.value !== ""? { 'ismatch': true } : null;
 };
+

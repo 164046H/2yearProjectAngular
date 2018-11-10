@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class AuthServiceService {
 
-  constructor(private repository : RepositoryService, private router: Router) { }
+  constructor( private repository : RepositoryService, private router: Router) { }
   public log:any;
 
  public loggout(){
@@ -20,6 +20,7 @@ export class AuthServiceService {
   }
 
   public isAdmin(){
+ 
     if(this.tokencheckRole()=="AD"){
       return true;
     }
@@ -42,16 +43,23 @@ export class AuthServiceService {
       return false;
     }
   }
-
+public istokenExpired(){
+  const helper = new JwtHelperService();
+  var token = localStorage.getItem('token');
+  const ex = helper.isTokenExpired(token);
+  if(ex==true){localStorage.removeItem('token');}
+  return ex;
+}
 
  public tokencheckRole(){
    var token = localStorage.getItem('token');
 
    const helper = new JwtHelperService();
 
-const decodedToken = helper.decodeToken(token);
+  const decodedToken = helper.decodeToken(token);
+ 
   
-   console.log(decodedToken.sub);
+   
    return decodedToken.sub;
 
  }
@@ -62,10 +70,21 @@ const decodedToken = helper.decodeToken(token);
 
 const decodedToken = helper.decodeToken(token);
   
-   //console.log(decodedToken.Id);
-   return decodedToken.email;
+  // console.log(decodedToken);
+   return decodedToken.nameid;
 
  }
+ public tokenGetName(){
+  var token = localStorage.getItem('token');
+
+  const helper = new JwtHelperService();
+
+const decodedToken = helper.decodeToken(token);
+ 
+ //console.log(decodedToken);
+  return decodedToken.unique_name;
+
+}
   // public logcheck() {
   //   let loginuser: LoginUser = {
   //     EmpId: localStorage.getItem('id'),
