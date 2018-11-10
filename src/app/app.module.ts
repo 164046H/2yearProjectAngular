@@ -15,7 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavbarComponent } from './SharePart/sidenavbar/sidenavbar.component';
 
 import { AuthServiceService } from "./AuthGards/auth-service.service";
-import { CreateEventPageForTripComponent } from './events/create-event-page-for-trip/create-event-page-for-trip.component';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { CreateEventPageForTripComponent } from './events/create-event-page-for-
     //LoggedHeaderComponent,
     LogingHeaderComponent,
     SidenavbarComponent,
-    CreateEventPageForTripComponent,
+    
     
   ],
   imports: [
