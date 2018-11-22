@@ -7,4 +7,5 @@ export class Event {
     endDate: Date;
     pKey:string;
     url:string;
+    
 }

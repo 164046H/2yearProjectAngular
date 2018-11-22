@@ -18,6 +18,7 @@ export class RepositoryService {
   constructor( private http: HttpClient, private envUrl:UserServiceService , private userurl :UserServiceService) { }
 
   public getData(route: string) {
+    console.log(route)
     return this.http.get(this.createCompleteRoute(route, this.envUrl.urlAddress),this.generateHeaders());
     
   }

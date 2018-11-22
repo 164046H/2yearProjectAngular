@@ -4,14 +4,13 @@
 body{
     background-color: white
 }
-section h2{
-    color: white;
-    font-size: 25px;
-    text-align: center;
-    padding-bottom: 20px;
-}
+
+
+
 #head{
-    margin-left: 200px
+    margin-left: 220px;
+    color: rgb(83, 87, 85);
+    font-family: 'Times New Roman'
 }
 
 
@@ -20,12 +19,12 @@ em{
 }
 
 .ng-valid, .ng-valid.required  {
-    border-left: 10px solid #42A948; /* green */
-    background-color: rgb(182, 253, 185);
+    /*border-left: 10px solid #42A948;  green */
+    background-color: rgb(191, 252, 194);
   }
   
   .ng-invalid:not(form)  {
-    border-left: 10px solid #a94442; /* red */
-    background-color: #ffd6d5;
+    /*border-left: 10px solid #a94442; red */
+    background-color: #fddcdc;
   }
  
