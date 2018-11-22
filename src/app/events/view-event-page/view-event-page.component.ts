@@ -19,7 +19,7 @@ export class ViewEventPageComponent implements OnInit {
   public image;
   ngOnInit() {
     
-    this.eventId="2020 BloodDonation";
+    this.eventId="2012-YearEndParty";
     this.destOrVen = "Venue";
     
       this.repository.getData('getall/'+this.eventId)
@@ -34,7 +34,7 @@ export class ViewEventPageComponent implements OnInit {
        var day = this.event.startDate.split('-')[2].split('T')[0];
        var date = `${year}-${month}-${day}`
        this.event.startDate=date;
-       var type = this.event.pKey.split(' ')[1];
+       var type = this.event.pKey.split('-')[1];
        console.log(type);
        console.log(this.event.url);
        

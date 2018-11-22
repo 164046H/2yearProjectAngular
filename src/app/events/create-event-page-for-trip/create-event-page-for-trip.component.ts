@@ -15,8 +15,8 @@ export class CreateEventPageForTripComponent implements OnInit {
     public eventForm: FormGroup;
     public msg: any;
 
-    regForms = [{'id':1, 'name':'One day trip'}, {'id':2, 'name': 'Two day trip'}, {'id':'/events/createEventPageForTrip', 'name':'Blood donation'}, {'id':4, 'name': 'Year end party'}];
-    eventTypes = [{'id':' Trip', 'name':'One day trip'}, {'id':' Trip', 'name': 'Two day trip'}, {'id':' BloodDonation', 'name':'Blood donation'}, {'id':' YearEndParty', 'name': 'Year end party'}];
+    regForms = [{'id':'/events/oneDayTrip/', 'name':'One day trip'}, {'id':'/events/twoDayTrip/', 'name': 'Two day trip'}, {'id':'/events/bloodDonation/', 'name':'Blood donation'}, {'id':'/events/yearEndParty/', 'name': 'Year end party'}];
+    eventTypes = [{'id':'-Trip', 'name':'One day trip'}, {'id':'-Trip', 'name': 'Two day trip'}, {'id':'-BloodDonation', 'name':'Blood donation'}, {'id':'-YearEndParty', 'name': 'Year end party'}];
 
   constructor(private repository : RepositoryService) { }
 
@@ -82,7 +82,7 @@ export class CreateEventPageForTripComponent implements OnInit {
       startDate: eventFormValue.startDate,
       endDate: eventFormValue.endDate,
       pKey:`${eventFormValue.startDate.split('-')[0]}${eventFormValue.type}`,
-      url:eventFormValue.url,
+      url:`${eventFormValue.url}${eventFormValue.startDate.split('-')[0]}${eventFormValue.type}`,
      
      
     };
